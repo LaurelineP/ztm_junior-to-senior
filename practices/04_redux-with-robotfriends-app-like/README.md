@@ -100,3 +100,40 @@ https://create-react-app.dev/docs/adding-a-sass-stylesheet/
 - uninstall `node-sass`: `npm uninstall node-sass`
 - install `sass` instead : `npm i sass --save-dev`
 Then there are no more scss issues
+
+
+-----------
+
+REACT AND REDUX
+
+### Conceptions steps 
+![Alt text](../../assets/image-1.png)
+Conception steps to follow
+- action(s): a client action triggering an action creator for the reducer(s) concerned to handle
+> Dispatching an action
+- reducer(s): a function having as sole responsibility to update a part of 
+the unique source of truth, unique state management object : the store
+- the store: an object computation representing and containing the whole application state,
+when it changes, react handles the diff to update the correct subscribed UI/view
+- the UI/views: the component that need to update
+
+1. create one action file ( or the one you need )
+	- this would list `action creators`: functions dispatching an action type and may includes a payload
+
+2. create a reducer file
+	- for a same concern, this would be a switch case relying on a given arguments `action.type` ( action type === action name )
+	and will proceed to the update to make to the store
+
+3. create store file: 
+	- this will represent your application whole state
+		- it can have multiple decoupled reducers that will be merged together
+		- it can also represent only one reducer
+
+4. in the root application file:
+	- import the store using
+	- plug the store to the app
+		- `import { Provider, connect } from 'react-redux'`
+			- Provider: 
+			- connect: API allowing to connect react to redux
+
+5. redux devtools
