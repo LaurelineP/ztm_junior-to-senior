@@ -1,8 +1,9 @@
 import React from 'react';
+import './ScrollableView.scss'
 
 function ScrollableView({ children }) {
 	return (
-		<div style={{ overflow: 'auto' }}>
+		<div className = "ScrollableView">
 			{ children }
 		</div>
 	)

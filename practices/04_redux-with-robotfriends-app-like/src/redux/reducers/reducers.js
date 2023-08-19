@@ -1,4 +1,5 @@
-import { createActionPayload } from '../utils';
+import { combineReducers } from 'redux';
+import { CHANGE_SEARCH_FIELD, REQUEST_ROBOT_PENDING, REQUEST_ROBOT_SUCCESS, REQUEST_ROBOT_FAILED } from '../actions/constants_actions';
 /* -------------------------------------------------------------------------- */
 /*                                  REDUCERS                                  */
 /* -------------------------------------------------------------------------- */
@@ -7,33 +8,60 @@ import { createActionPayload } from '../utils';
  */
 
 const initialState = {
-	searchfield: ''
+	searchField: ''
 }
+
+
 /** Standard way */
-// export const search = (state = initialState, { type, payload }) => {
-// 	switch( type ){
-// 		case 'CHANGE_SEARCHFIELD': 
-// 			console.log('payload')
-// 			return {
-// 				...state, 
-// 				search: payload.text
-// 			}
-// 		default:
-// 			return state;
-
-// 	}
-// }
-
-/** Personal exploration  */
-export const search = (state = initialState, { type, payload } = (()=> createActionPayload)() ) => {
+export const searchPersonaReducer = (state = initialState, action ) => {
+	const { type, payload } = action;
 	switch( type ){
-		case 'CHANGE_SEARCHFIELD': 
-			console.log('payload')
+		case CHANGE_SEARCH_FIELD: 
 			return {
 				...state, 
-				search: payload.text
+				searchField: payload?.text
 			}
 		default:
 			return state;
+
 	}
 }
+
+
+const initialState2 = {
+	LIST: [],
+	list: [],
+	isLoading: false,
+	hasError: false
+}
+
+export const personasReducer = (state = initialState2, action ) => {
+	const { type, payload } = action;
+	switch( type ){
+		case REQUEST_ROBOT_PENDING: 
+			return {
+				...state, 
+				...payload
+			}
+		case REQUEST_ROBOT_SUCCESS: 
+			return {
+				...state, 
+				...payload
+			}
+		case REQUEST_ROBOT_FAILED: 
+			return {
+				...state, 
+				...payload
+			}
+		default:
+			return state;
+
+	}
+}
+
+const rootReducer = combineReducers({
+	searchPersonaReducer,
+	personasReducer
+})
+
+export default rootReducer;

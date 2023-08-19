@@ -53,7 +53,6 @@ function List (props) {
 
 	return (
 		<div className="List">
-			<div className="List_container">
 				{
 					!shouldBeResponsive ? (
 						rowsOfCards?.map((cards, idx) => (
@@ -74,7 +73,6 @@ function List (props) {
 						))
 					)
 				}
-			</div>
 		</div>
 	)
 	
