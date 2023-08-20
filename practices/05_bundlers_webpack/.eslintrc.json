@@ -1,0 +1,28 @@
+{
+	"parser": "@babel/eslint-parser",
+	"extends": [
+		"airbnb-base"
+	],
+	"parserOptions": {
+		"requireConfigFile": false
+	},
+	"rules": {
+		"no-console": "warn",
+		"semi": "warn",
+		"no-mixed-spaces-and-tabs": 1,
+		"indent": [
+			2,
+			"tab"
+		],
+		"no-tabs": 0,
+		"import/no-extraneous-dependencies": [
+			"error",
+			{
+				"dependencies": false,
+				"devDependencies": false,
+				"optionalDependencies": false,
+				"peerDependencies": false
+			}
+		]
+	}
+}
