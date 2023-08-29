@@ -1,0 +1,24 @@
+.NavigationTabs {
+	border: .5px solid #DDD;
+	border-left: unset;
+	border-right: unset;
+	color: #EEE;
+	display: flex;
+	justify-content: space-between;
+	margin: unset;
+	padding: 20px 0;
+}
+
+.NavigationTabs-item {
+	list-style: none;
+	margin: unset;
+	transition: ease-in-out .3s;
+	font-weight: 600;
+	width: 100%;
+
+}
+
+.NavigationTabs-item:hover {
+	cursor: pointer;
+	transform: scale(1.1);
+}
