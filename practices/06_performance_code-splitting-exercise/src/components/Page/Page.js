@@ -1,8 +1,8 @@
 import './Page.css'
 
-export function Page({ id, children }){
+export function Page({ children, ...rest }){
 	return (
-		<div className = "Page">
+		<div className = "Page" {...rest}>
 			{children}
 		</div>
 	)
