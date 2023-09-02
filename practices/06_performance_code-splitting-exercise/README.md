@@ -87,3 +87,90 @@ asynchronous load ( alike a fetch )
 		this.setState({ component: import('./Page1') })
 	} else if{ <Page>{ selectedTab }</Page> }
 ```
+
+### Code Splitting - 2 Different ways
+They are different ways to aboard code splitting:
+- route-based code splitting: will split on page request
+- component-based code splitting: to split unused component  
+in the render ( ex bugger button > on click will display  
+another component ).
+
+### Another way to implement the code splitting
+Doing component based code splitting, we could implement  
+it using tools such as `react-loadable`.
+The implementation is quite similar to `React.lazy`  
+but still different
+
+- [`react-loadable` library](https://github.com/jamiebuilds/react-loadable) 
+*(✨smooth documentation and explanations ✨👌)*
+- [Loadable VS React.lazy article](https://www.smooth-code.com/open-source/loadable-components/docs/loadable-vs-react-lazy/)
+```jsx
+// React Loadable implementation
+import Loadable from 'react-loadable';
+
+const LoadableBar = Loadable({
+  loader: () => import('./components/Bar'),
+  loading() {
+    return <div>Loading...</div>
+  }
+});
+```
+
+
+
+## Step 4: Exercise - Code Splitting exercise - dynamic import and React Lazy:
+
+`React.lazy`: lets render dynamic import as default component  
+by deferring its load in the DOM.
+`React.lazy` is always working in combination with `Suspense` in  
+order to be consumed within the JSX.  
+
+`Suspense` allows the react deferring to acknowledge the DOM's  
+diff that can occur.
+
+
+```jsx
+// Abstracting the explanation
+import { lazy, Suspense } from 'react';
+
+
+// custom function handling "default" and "non-default" exported 
+// components as by default, React.lazy loads default exports
+const loadAsDefault = module => ({ default: Object.values(module)[0] || module.default });
+
+
+// use React.lazy - outside/above of the component definition 
+const ComponentA = lazy(() => import('<ComponentA-PATH>').then(loadAsDefault));
+const ComponentB = lazy(() => import('<ComponentB-PATH>').then(loadAsDefault));
+
+
+// ➡️ then use the components within the component definition using the Suspense
+const ComponentRoot = () => {
+	return ( 
+		<>
+			<h1>Component Root</h1>
+			<Suspense fallback={<h1>Loading...</h1>}>
+				<ComponentA />
+				<ComponentB />
+			</Suspense>
+		<>
+	)
+}
+
+```
+
+
+- [React legacy doc](https://legacy.reactjs.org/docs/code-splitting.html#reactlazy): 
+- [React new doc](https://react.dev/reference/react/lazy)
+
+
+----- 
+
+
+## Code Splitting - Network
+
+- Code non-splitted
+![Code non-splitted](/assets/performances_observation-demo.mp4)
+
+- Code splitted
+![Code splitted [ dynamic import or React.lazy + Suspense ]](/assets/performances_observation-demo.mp4)
