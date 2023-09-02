@@ -1,8 +1,8 @@
 import './NavigationTabs.css';
 
-export function NavigationTabs({ list, onTabSelection }){
+export default function NavigationTabs({ list, onTabSelection, ...rest }){
 	return (
-		<ul className="NavigationTabs">
+		<ul className="NavigationTabs" {...rest}>
 			{list.map((item, idx) => (
 				<li
 					key={`navigation-item-${idx}`}
