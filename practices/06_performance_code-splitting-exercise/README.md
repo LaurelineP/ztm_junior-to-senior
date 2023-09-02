@@ -32,12 +32,58 @@ code for the production ) will do. Follow the following test to create a build
 script tag
 
 First build
-![first build](assets/performance_code-spliting_first-build.png)
+![first build](/assets/performance_code-spliting_first-build.png)
 
 Second build after changing the code
-![second build](assets/performance_code-spliting_secong-build-with-changes)
+![second build](/assets/performance_code-spliting_secong-build-with-changes.png)
 
 
 ## Step 3: Exercise - Code Splitting exercise - app modified version:
 With dynamic imports we can avoid the browser to load all at once
-which will improve performances and the time to first interaction 
+which will improve performances and the time to first byte  ( TTFB )
+
+There are two ways to split the code
+- route based splitting: splitting occurring for each page load
+- component splitting: splitting based on component 
+Ex: when there is a big component that does not need to load all the component  
+as they may not be required right away.
+
+### Approach here
+The way the app requires the dynamic splitting here is  
+based on a condition expecting to have an array of tabs.
+This condition emulates the tabs to be loaded asynchronously:
+- rendering: if `tabs` exist, the `NavigationTab` and `Page`   
+- implementation: through a useEffect triggered after 5 second  
+( see `useEffect` )
+
+This implementation allows to distinctly see in the browser's   
+inspector network tab 
+- loads first the bundle
+- then 5 sec later, it loads the 2 others files ( corresponding  
+to the dynamically imported components )
+
+### Problematic encounter / Motivation
+Following the reusability principle for a component:
+- This personal implementation did use the same   
+component `Page` and the composition pattern to inherit   
+from whatever children and did not want to duplicate the   
+3 condition rendering a Page - Hence the approach of fake 
+asynchronous load ( alike a fetch )
+```jsx
+/**
+ * ❌ (unfitted for this implementation ==> unnecessary repetition )  
+ * course code logic applied: this would resemble to the following
+ * - unfit because Page as already been imported --> hence no need
+ */
+ 
+	if( selectedTab === 'tab1') return <Page>{ selectedTab }</Page>
+	else if ( selectedTab ) return <Page>{ selectedTab }</Page>
+	else { <Page>{ selectedTab }</Page> }
+
+
+// course approach applied
+	if( selectedTab === 'tab1') { return <Page1> }
+	else if ( selectedTab === 'tab2') { 
+		this.setState({ component: import('./Page1') })
+	} else if{ <Page>{ selectedTab }</Page> }
+```
