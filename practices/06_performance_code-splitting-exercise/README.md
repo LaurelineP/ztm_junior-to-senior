@@ -174,3 +174,62 @@ const ComponentRoot = () => {
 
 - Code splitted
 ![Code splitted [ dynamic import or React.lazy + Suspense ]](/assets/performances_observation-demo.mp4)
+
+----- 
+
+
+# Performance and code optimizations
+*This project is a reused one : robot friend aka personas*  
+*friend on which we will analyze and apply optimizations*
+
+## Analyze React application's performance
+This could be done using:
+- **inspector > Performances Tab** 
+the browser **inspector > Performances Tab** then record some UX  
+ 	- this could be enhance by the hack of adding `?react_perf` in the URL
+	`localhost:3000/?react_perf` displaying component names
+- [**React devtools** ](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi)
+leverage the [**react devtools**](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en) component to debug in details
+	- **Browser Inspector > Profiler** (enabled by the extension react devtool)
+- **React API**  
+React API provides element to control more the rendering process  
+( such as `shouldComponentUpdate` for class-based component,  
+`React.memo` for hook-based component )
+- **External package**: [why-did-you-render](https://vasanthk.gitbooks.io/react-bits/content/patterns/19.async-nature-of-setState.html)
+- **Redux leverage**
+Based on the component re-rendering, we can check what parent component  
+renders what in order to optimize in an intelligent what the request made  
+against the redux store
+
+### React lifecycle / control 
+- `shouldComponentUpdate(prevState, nextState)`:
+**In class based-component**, when you need to limit the   
+updates/re-rendering we could use `shouldComponentUpdate` within   
+the rerendering component *( maybe after a refacto into a component )*   
+we can use this to control its render
+This lifeCycle is happening **before the render**.
+
+**⚠️ Trade-off to be aware of**:  
+Adding this also adds more code to process --> hence  
+this also implies a loss of performance --> 📝 Do not over use it!
+```jsx
+shouldComponentUpdate(prevState, nextState){
+	// will update if return true and will not if returned false;
+
+}
+```
+
+
+--- 
+
+## Review for performances optimizations
+- Only load what is needed
+	- code splitting 
+	- [tree shaking](https://developers.google.com/web/fundamentals/performance/optimizing-javascript/tree-shaking/): the bundlers feature analyzing what the project use and drop unnecessary imports - do not rely on this only as it can still load  
+	uncaught imports
+- Avoid to block the JS main thread with heavy loads
+( minimizing code, content, resources, compilations,   
+parsing, execution to be aware of)
+- Avoid Memory Leaks:
+Keep in mind to remove unnecessary timing functions for instance
+- Avoid Multiple Re-rendering: minimizing the DOM manipulations
